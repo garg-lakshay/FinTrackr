@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int   @id @default(autoincrement())
+  email     String @unique
+  name       String 
+  password  String
+  createdAt DateTime @default(now())
+  transactions Transaction[]
+}
+
+model Category {
+  id          Int      @id @default(autoincrement())
+  amount      Float
+  type        TransactionType // "Income" or "Expense"
+  transactions Transaction[]
+  date        DateTime @default(now())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Transaction {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique
+  amount      Float
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+  note       String?
+  type        TransactionType
+  createdAt  DateTime @default(now())
+  date        DateTime @default(now())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+}
+
+model Budget {
+  id          Int      @id @default(autoincrement())
+  amountLimit      Float
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int 
+  user       User     @relation(fields: [userId], references: [id]) 
+  userId     Int
+  createdAt  DateTime @default(now())
+  month       Int
+  year        Int
+ 
+
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+  TRANSFER
+}
