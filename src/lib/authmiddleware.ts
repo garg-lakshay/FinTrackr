@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function Verifyauth(req: NextRequest, res: NextResponse) {
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
     if (!user) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
-    return NextResponse.json({ user });
+    return user;
   } catch (err) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }

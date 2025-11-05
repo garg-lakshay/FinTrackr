@@ -10,7 +10,7 @@ export default function HomePage() {
       {/* Header */}
       <nav className="w-full max-w-6xl flex justify-between items-center py-6">
         <h1 className="text-3xl font-extrabold tracking-tight">
-          <span className="text-indigo-400">Fin</span>Track
+          <span className="text-indigo-400">Fin</span>Trackr  
         </h1>
         <div className="space-x-4">
           <Link

@@ -1,25 +1,47 @@
 "use client";
+
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Lock } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const router = useRouter(); // ✅ enables redirect
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setMessage("");
+
     try {
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
+
       const data = await res.json();
-      setMessage(data.message);
+
+      if (res.ok) {
+        // ✅ Save token & user details to localStorage
+        localStorage.setItem("token", data.token);
+        if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+        }
+
+        setMessage("✅ Login successful! Redirecting...");
+
+        // ✅ Redirect to dashboard after short delay
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 800);
+      } else {
+        setMessage(data.message || "Invalid credentials");
+      }
     } catch (err) {
+      console.error("Login error:", err);
       setMessage("Something went wrong!");
     }
   };
@@ -71,7 +93,15 @@ export default function LoginPage() {
         </form>
 
         {message && (
-          <p className="text-center mt-4 text-sm text-gray-300">{message}</p>
+          <p
+            className={`text-center mt-4 text-sm ${
+              message.includes("✅")
+                ? "text-green-400"
+                : "text-gray-300"
+            }`}
+          >
+            {message}
+          </p>
         )}
 
         <p className="text-center mt-6 text-sm text-gray-400">
