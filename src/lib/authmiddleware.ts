@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { NextRequest, NextResponse } from "next/server";
 import jwt, { JwtPayload } from "jsonwebtoken";
 
-export async function Verifyauth(req: NextRequest, res: NextResponse) {
+export async function Verifyauth(req: NextRequest) {
   try {
     const authHeader = req.headers.get("Authorization");
     if (!authHeader) {
