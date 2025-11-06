@@ -20,27 +20,26 @@ model User {
   password     String
   createdAt    DateTime      @default(now())
   transactions Transaction[]
-  categories   Category[]
-  budgets      Budget[]
+  
 }
 
-model Category {
-  id           Int             @id @default(autoincrement())
-  amount       Float
-  type         TransactionType // "Income" or "Expense"
-  transactions Transaction[]
-  date         DateTime        @default(now())
-  userId       Int
-  user         User            @relation(fields: [userId], references: [id])
-  budgets      Budget[]
-}
+// model Category {
+//   id           Int             @id @default(autoincrement())
+//   amount       Float
+//   type         TransactionType // "Income" or "Expense"
+//   transactions Transaction[]
+//   date         DateTime        @default(now())
+//   userId       Int
+//   user         User            @relation(fields: [userId], references: [id])
+//   budgets      Budget[]
+// }
 
 model Transaction {
   id         Int             @id @default(autoincrement())
   name       String          @unique
   amount     Float
-  category   Category        @relation(fields: [categoryId], references: [id])
-  categoryId Int
+  // category   Category        @relation(fields: [categoryId], references: [id])
+  category   String
   note       String?
   type       TransactionType
   createdAt  DateTime        @default(now())
@@ -48,19 +47,6 @@ model Transaction {
   userId     Int
   user       User            @relation(fields: [userId], references: [id])
 }
-
-model Budget {
-  id          Int      @id @default(autoincrement())
-  amountLimit Float
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoryId  Int
-  user        User     @relation(fields: [userId], references: [id])
-  userId      Int
-  createdAt   DateTime @default(now())
-  month       Int
-  year        Int
-}
-
 enum TransactionType {
   INCOME
   EXPENSE

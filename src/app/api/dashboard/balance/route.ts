@@ -2,7 +2,7 @@ import prisma from '@/lib/prisma';
 import { NextRequest, NextResponse } from 'next/server';
 import { Verifyauth } from '@/lib/authmiddleware';
 
-export async function balance(req: NextRequest, res: NextResponse){
+export async function GET(req: NextRequest, res: NextResponse){
 
     try{
         const user = await Verifyauth(req,res);
@@ -16,7 +16,11 @@ export async function balance(req: NextRequest, res: NextResponse){
             return NextResponse.json({message:'Balance fetched successfully', balance: 0},{status:200});
         }
         const balance = transaction.reduce((acc: number , tx: { type: string; amount: number }) => {
-            return tx.type === 'income' ? acc + tx.amount : acc - tx.amount;
+            if(tx.type === 'INCOME') {
+                return acc + tx.amount;
+            } else {
+                return acc - tx.amount;
+            }
         }, 0);
         return NextResponse.json({message:'Balance fetched successfully', balance},{status:200});
     }

@@ -9,7 +9,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const router = useRouter(); // ✅ enables redirect
+  const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -25,18 +25,13 @@ export default function LoginPage() {
       const data = await res.json();
 
       if (res.ok) {
-        // ✅ Save token & user details to localStorage
         localStorage.setItem("token", data.token);
         if (data.user) {
           localStorage.setItem("user", JSON.stringify(data.user));
         }
 
         setMessage("✅ Login successful! Redirecting...");
-
-        // ✅ Redirect to dashboard after short delay
-        setTimeout(() => {
-          router.push("/dashboard");
-        }, 800);
+        setTimeout(() => router.push("/dashboard"), 800);
       } else {
         setMessage(data.message || "Invalid credentials");
       }
@@ -47,46 +42,48 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-neutral-50 text-neutral-900">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-md p-8 bg-gray-800 rounded-2xl shadow-2xl border border-gray-700"
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-md bg-white border border-neutral-200 rounded-xl shadow-sm p-8"
       >
-        <h1 className="text-3xl font-bold text-center mb-6">Welcome Back 👋</h1>
-        <p className="text-gray-400 text-center mb-6">
+        <h1 className="text-2xl font-semibold text-center mb-3 text-neutral-900">
+          Welcome Back 👋
+        </h1>
+        <p className="text-center text-sm text-neutral-500 mb-8">
           Login to continue to your dashboard
         </p>
 
-        <form onSubmit={handleLogin} className="space-y-4">
-          <div className="flex items-center border border-gray-600 rounded-lg px-3 py-2">
-            <Mail className="text-gray-400 mr-3" />
+        <form onSubmit={handleLogin} className="space-y-5">
+          <div className="flex items-center border border-neutral-300 rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-indigo-500 transition">
+            <Mail className="text-neutral-500 mr-3" size={18} />
             <input
               type="email"
               placeholder="Email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-transparent outline-none text-gray-100"
+              className="w-full bg-transparent outline-none text-neutral-900 placeholder-neutral-400"
               required
             />
           </div>
 
-          <div className="flex items-center border border-gray-600 rounded-lg px-3 py-2">
-            <Lock className="text-gray-400 mr-3" />
+          <div className="flex items-center border border-neutral-300 rounded-md px-3 py-2 focus-within:ring-2 focus-within:ring-indigo-500 transition">
+            <Lock className="text-neutral-500 mr-3" size={18} />
             <input
               type="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full bg-transparent outline-none text-gray-100"
+              className="w-full bg-transparent outline-none text-neutral-900 placeholder-neutral-400"
               required
             />
           </div>
 
           <button
             type="submit"
-            className="w-full mt-4 bg-indigo-600 hover:bg-indigo-700 transition-colors py-2 rounded-lg font-semibold"
+            className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-md transition"
           >
             Login
           </button>
@@ -95,26 +92,27 @@ export default function LoginPage() {
         {message && (
           <p
             className={`text-center mt-4 text-sm ${
-              message.includes("✅")
-                ? "text-green-400"
-                : "text-gray-300"
+              message.includes("✅") ? "text-green-600" : "text-red-600"
             }`}
           >
             {message}
           </p>
         )}
 
-        <p className="text-center mt-6 text-sm text-gray-400">
+        <p className="text-center mt-6 text-sm text-neutral-500">
           Don’t have an account?{" "}
-          <a href="/register" className="text-indigo-400 hover:underline">
+          <a
+            href="/register"
+            className="text-indigo-600 font-medium hover:underline"
+          >
             Register here
           </a>
         </p>
       </motion.div>
 
-      <footer className="mt-8 text-sm text-gray-400">
-        Made with ❤️ by{" "}
-        <span className="font-semibold text-indigo-400">Lakshay Garg</span>
+      <footer className="mt-8 text-sm text-neutral-500">
+        © {new Date().getFullYear()} FinTrackr —{" "}
+        <span className="font-medium text-neutral-800">Lakshay Garg</span>
       </footer>
     </div>
   );

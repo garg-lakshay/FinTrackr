@@ -16,7 +16,7 @@ export async function POST(req: NextRequest , res: NextResponse){
                 userId:user.id,
                 name,
                 amount,
-                categoryId: category.id,
+                category,
                 type,
                 date:new Date(date),
             }
