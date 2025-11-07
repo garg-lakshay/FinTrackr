@@ -1,36 +1,118 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🪙 FinTrackr — Smart Personal Finance Tracker
 
-## Getting Started
+**FinTrackr** is a modern **Next.js 16** web application designed to help users manage their personal finances.
+It provides an elegant dashboard to track **income, expenses, and transfers**, with secure authentication and a clean, data-driven UI.
 
-First, run the development server:
+---
+
+## 🚀 Tech Stack
+
+| Layer          | Technology                                  |
+| -------------- | ------------------------------------------- |
+| **Framework**  | Next.js 16 (App Router)                     |
+| **Database**   | PostgreSQL                                  |
+| **ORM**        | Prisma                                      |
+| **Styling**    | TailwindCSS + Framer Motion                 |
+| **Auth**       | JWT (JSON Web Token)                        |
+| **Deployment** | Vercel                                      |
+| **SEO / OG**   | Static Open Graph image for social previews |
+
+---
+
+## ⚙️ Core Features
+
+### 🔐 Authentication
+
+* Secure login with JWT tokens.
+* Middleware-protected dashboard and API routes.
+
+### 💰 Transaction Management
+
+* Add, edit, and view transactions categorized as:
+
+  * **INCOME**
+  * **EXPENSE**
+  * **TRANSFER**
+* Each transaction includes: name, amount, category, note, and date.
+
+### 📊 Dashboard Overview
+
+* Displays total balance and recent activity.
+* Quick navigation to add transactions, check income/expenses, or open the calendar view.
+
+### 💸 Income & Expense Pages
+
+* Dedicated pages with total summaries and search filters.
+* Clean, color-coded data tables.
+
+### 📅 Calendar View
+
+* Interactive monthly calendar to browse transactions by date.
+* Responsive and intuitive design.
+
+### 🧭 Date Range Filtering
+
+* Backend supports fetching transactions within a specific time range (useful for reports and insights).
+
+### 🌐 SEO & Meta Configuration
+
+* Static Open Graph image used for consistent link previews.
+* Optimized metadata for each route.
+
+---
+
+## 🧩 Data Model Overview
+
+FinTrackr uses a relational model via Prisma ORM:
+
+* **User** → manages authentication and relationships.
+* **Transaction** → linked to a user and includes fields for `amount`, `category`, `type`, `date`, and optional notes.
+* Supports multiple transaction types: `INCOME`, `EXPENSE`, and `TRANSFER`.
+
+---
+
+## 🧱 Project Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/lakshaygarg/fintrackr.git
+cd fintrackr
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Create a `.env` file:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/fintrackr
+JWT_SECRET=your_secret_key
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Then:
 
-## Learn More
+```bash
+npx prisma migrate dev
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📍 API Overview
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Endpoint                         | Description                            |
+| -------------------------------- | -------------------------------------- |
+| `/api/dashboard/balance`         | Get total balance                      |
+| `/api/dashboard/transactions`    | Fetch recent transactions              |
+| `/api/dashboard/add-transaction` | Add a new income, expense, or transfer |
+| `/api/dashboard/income`          | Get income transactions                |
+| `/api/dashboard/expense`         | Get expense transactions               |
+| `/api/dashboard/date`            | Transactions by date                   |
+| `/api/dashboard/date-range`      | Transactions within date range         |
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 👨‍💻 Author
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+**Lakshay Garg**
+
+---
+
+> *FinTrackr combines clarity, security, and simplicity — helping users make smarter financial decisions.*
