@@ -28,6 +28,7 @@ It provides an elegant dashboard to track **income, expenses, and transfers**, w
 
 ### 💰 Transaction Management
 
+
 * Add, edit, and view transactions categorized as:
 
   * **INCOME**
