@@ -116,4 +116,5 @@ export default function LoginPage() {
       </footer>
     </div>
   );
+  
 }
